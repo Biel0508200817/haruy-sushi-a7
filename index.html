@@ -123,7 +123,7 @@
     </section>
 
     <script>
-        const API_URL = 'https://haruy-sushi-aula-7-backend-na-verce.vercel.app/';
+        const API_URL = 'https://haruy-sushi-aula-7-backend-na-verce.vercel.app/api';
         const navCategorias = document.getElementById('nav-categorias');
         const listaProdutos = document.getElementById('lista-produtos');
         const categoriaTitulo = document.getElementById('categoria-titulo');
@@ -137,7 +137,7 @@
                 renderizarBotoesCategorias();
                 //seleciona a 1ª categoria automatico
                 if (categoriasData.length > 0) {
-                    SelectionCategorias(categoriasData[0].id, categoriasData[0].nome);
+                    selecionarCategoria(categoriasData[0].id, categoriasData[0].nome);
                 }
             } catch (error) {
                 console.error('Erro ao carregar categorias:', error);
@@ -155,9 +155,9 @@
                 text-sm transition-all duration-150 cursor-pointer flex-shrink-0 
                 btn-cat`;
                 btn.innerText = cat.nome;
-                btn.onclick = () => selecionarCategorias(cat.id, cat.nome);
+                btn.onclick = () => selecionarCategoria(cat.id, cat.nome);
                 btn.dataset.id = cat.id;
-                navCategorias.id = cat.id;
+                navCategorias.appendChild(btn);
             });
         }
 
@@ -177,9 +177,26 @@
             });
             carregarProdutos(id);
         }
+
+        async function carregarProdutos (categoriaId) {
+listaProdutos.innerHTML = `
+<div class="col-span-2py-1 flex justify-center">
+<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+`;try {
+    const response = await fetch(`${API_URL}/produtos?categoria=${categoriaId}`);
+    const produtos = await response.json();
+    renderizarProdutos(produtos);
+} catch (error) {
+    console.error("Erro ao carregar produtos:", error);
+    listaProdutos.innerHTML = '<p class="col-span-2 text-red-500">Erro ao carregar produtos.</p>';
+}
+        }
+
+
+
+
+
         carregarCategorias();
-
-
     </script>
 
 
