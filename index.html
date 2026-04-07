@@ -109,13 +109,12 @@
 
         <!-- produto inicio-->
         <div id="produto-container" class="mt-8">
-            <div id="categoria-titulo" class="text-left 
-            text-dark font-extrabold text-[22px mb-4]">
+            <div id="categoria-titulo" class="text-left text-dark font-extrabold text-[22px] mb-4">
                 Iniciando...
             </div>
             <div id="lista-produtos" class="grid 
             grid-cols-2 gap-4">
-            <!-- os produtos serão injetados aqui pelo backend -->
+                <!-- os produtos serão injetados aqui pelo backend -->
 
             </div>
         </div>
@@ -164,32 +163,76 @@
         //função para mudar a categoria
         async function selecionarCategoria(id, nome) {
             categoriaAtivaId = id;
-            categoriaTitulo.innerText = nome;
-            const boes = document.querySelectorAll('.btn-cat');
+            const botoes = document.querySelectorAll('.btn-cat');
             botoes.forEach(btn => {
                 if (parseInt(btn.dataset.id) === id) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('bg-[#ebebeb]', 'text-dark');
                 } else {
-                    btn.classList.remove('bg-primary', 'text-while');
+                    btn.classList.remove('bg-primary', 'text-white');
                     btn.classList.add('bg-[#ebebeb]', 'text-dark');
                 }
             });
             carregarProdutos(id);
         }
 
-        async function carregarProdutos (categoriaId) {
-listaProdutos.innerHTML = `
-<div class="col-span-2py-1 flex justify-center">
-<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-`;try {
-    const response = await fetch(`${API_URL}/produtos?categoria=${categoriaId}`);
-    const produtos = await response.json();
-    renderizarProdutos(produtos);
-} catch (error) {
-    console.error("Erro ao carregar produtos:", error);
-    listaProdutos.innerHTML = '<p class="col-span-2 text-red-500">Erro ao carregar produtos.</p>';
-}
+        async function carregarProdutos(categoriaId) {
+            listaProdutos.innerHTML = `
+        <div class="col-span-2 flex justify-center py-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+    `;
+
+            try {
+                const response = await fetch(`${API_URL}/produtos`);
+                const produtos = await response.json();
+                
+
+                // filtra somente os produtos da categoria clicada
+                const produtosFiltrados = produtos.filter(produto => {
+                    return Number(produto.categorias_id) === Number(categoriaId)
+                        || Number(produto.categoriasId) === Number(categoriaId)
+                        || Number(produto.categorias?.id) === Number(categoriaId);
+                });
+
+                renderizarProdutos(produtosFiltrados);
+            } catch (error) {
+                console.error("Erro ao carregar produtos:", error);
+                listaProdutos.innerHTML = '<p class="col-span-2 text-red-500">Erro ao carregar produtos.</p>';
+            }
+        }
+
+        function renderizarProdutos(produtos) {
+            listaProdutos.innerHTML = '';
+
+            if (produtos.length === 0) {
+                listaProdutos.innerHTML = '<p class="col-span-2 text-gray-500">Nenhum produto encontrado.</p>';
+                return;
+            }
+            produtos.forEach(p => {
+                const precoFormatado = p.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                const imgSource = (p.imagem && p.imagem.startsWith('http')) ? p.imagem : `./img/${p.imagem || 'logo.png'}`;
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-[20px] p-3  shadow-sm border border-gray-100 relative flex flex-col hover-col hover:shadow-md transition-shadow group";
+                card.innerHTML = `
+                    <div class="absolute inset-0 z-0 cursor-pointer" onclick="abrirModalDetalhes('${p.nome}', ${p.preco}, '${p.descricao || ''}', '${imgSource}', '${p.id}')"></div>
+                    <img src="${imgSource}" alt="${p.nome}" class="w-full h-24 object-contain mb-2 mt-2 transition-transform duration-300 drop-shadow-md group-hover:scale-105 pointer-events-none relative z-10" onerror="this.onerror=null; this.src='./img/logo.png'">
+                   <div class="text-left w- full mt-auto relative z-10 pointer-events-none">
+                    <h4 class="font-bold text-dark text-sm leading-tight">${p.nome}</h4>
+                    <p class="text-primary font-bold text-sm mt-2">
+                     ${p.preco.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })}
+                </p>
+                </div>
+                <button onclick="adicionarItem('${p.id}', '${p.nome}', ${p.preco})" class="w-full bg-primary text-white py-2 rounded-xl text-xs  font-bold mt-3 shadow-md hover:bg-red-700 active:scale-95 transition-all z-10 relative">
+                Adicinar
+                </button>
+                    `;
+                listaProdutos.appendChild(card);
+            })
+
         }
 
 
