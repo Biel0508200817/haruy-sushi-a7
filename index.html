@@ -240,6 +240,21 @@
 
 
         carregarCategorias();
+
+  function carregarDados() {
+    fetch(`${API_URL}`)
+      .then(res => res.json())
+      .then(data => {
+        // Esconde o texto
+        document.getElementById('categoria-titulo').style.display = 'none';
+
+        // ou remove completamente:
+        // document.getElementById('categoria-titulo').remove();
+      });
+  }
+
+  carregarDados();
+
     </script>
 
 
