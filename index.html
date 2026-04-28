@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Haruy Sushi</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ca3c3f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="./img/logopwa.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/logopwa.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/logopwa.png">
+    <link rel="icon" type="image/png" href="./assets/images/logopwa.png">
+    <link rel="shortcut icon" href="assets/images/logopwa.png" type="image/x-icon">
+    <meta name="msapplication-TileImage" content="./img/logopwa.png">
+    <meta property="og:image" content="./img/logopwa.png">
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="https://em-content.zobj.net/source/apple/81/sushi_1f363.png">
@@ -123,7 +134,7 @@
     </section>
 
     <script>
-        const API_URL = 'https://haruy-sushi-aula-7-backend-quebrado.vercel.app//api';
+        const API_URL = 'https://haruy-sushi-aula-7-backend-quebrado.vercel.app/api';
         const navCategorias = document.getElementById('nav-categorias');
         const listaProdutos = document.getElementById('lista-produtos');
         const categoriaTitulo = document.getElementById('categoria-titulo');
@@ -187,13 +198,10 @@
             try {
                 const response = await fetch(`${API_URL}/produtos`);
                 const produtos = await response.json();
-                
 
-                // filtra somente os produtos da categoria clicada
+
                 const produtosFiltrados = produtos.filter(produto => {
-                    return Number(produto.categorias_id) === Number(categoriaId)
-                        || Number(produto.categoriasId) === Number(categoriaId)
-                        || Number(produto.categorias?.id) === Number(categoriaId);
+                    return Number(produto.categoria_id) === Number(categoriaId);
                 });
 
                 renderizarProdutos(produtosFiltrados);
@@ -242,19 +250,19 @@
 
         carregarCategorias();
 
-  function carregarDados() {
-    fetch(`${API_URL}`)
-      .then(res => res.json())
-      .then(data => {
-        // Esconde o texto
-        document.getElementById('categoria-titulo').style.display = 'none';
+        function carregarDados() {
+            fetch(`${API_URL}`)
+                .then(res => res.json())
+                .then(data => {
+                    // Esconde o texto
+                    document.getElementById('categoria-titulo').style.display = 'none';
 
-        // ou remove completamente:
-        // document.getElementById('categoria-titulo').remove();
-      });
-  }
+                    // ou remove completamente:
+                    // document.getElementById('categoria-titulo').remove();
+                });
+        }
 
-  carregarDados();
+        carregarDados();
 
     </script>
 
@@ -658,8 +666,17 @@
                 fecharModalCarrinho();
                 atualizarCarrinho();
             }
-        }
-        inicializarCarrinho();
+         } 
+         
+         inicializarCarrinho(); 
+         
+         if('serviceWorker' in navigator) { 
+             window.addEventListener('load', () =>{ 
+                 navigator.serviceWorker.register('./sw.js') 
+                 .then(reg => console.log('Service Worker Registrado no Porto!', reg)) 
+                  .catch(err => console.error('Erro ao preparar o sushi: ', err)); 
+                 }); 
+                 } 
     </script>
 
 </body>
