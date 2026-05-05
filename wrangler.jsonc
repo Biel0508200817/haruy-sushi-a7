@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "haruy-sushi-a7-5",
+  "name": "haruy-sushi-a7-2",
   "compatibility_date": "2026-04-28",
   "observability": {
     "enabled": true
