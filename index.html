@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haruy Sushi</title>
+    <title>Haruy Sushi - App PWA (Aula 12)</title>
+    
+    <!-- Configurações para PWA (Manifest e Tema) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ca3c3f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="./img/logopwa.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/logopwa.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/logopwa.png">
-    <link rel="icon" type="image/png" href="./assets/images/logopwa.png">
-    <link rel="shortcut icon" href="assets/images/logopwa.png" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/logopwa.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/logopwa.png">
+    <link rel="icon" type="image/png" href="./img/logopwa.png">
+    <link rel="shortcut icon" href="./img/logopwa.png" type="image/x-icon">
     <meta name="msapplication-TileImage" content="./img/logopwa.png">
     <meta property="og:image" content="./img/logopwa.png">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="https://em-content.zobj.net/source/apple/81/sushi_1f363.png">
+    
+    <!-- Google Fonts: Barlow -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -28,143 +35,221 @@
                         barlow: ['Barlow', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#ca3c3f'
+                        primary: '#ca3c3f',
+                        dark: '#222222',
+                        muted: '#999999',
+                        footer: '#333333',
                     }
                 }
             }
         }
     </script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #ca3c3f;
+        }
+    </style>
 </head>
 
-<body class="font-barlow text-gray-800">
+<body class="font-barlow text-dark w-full m-0">
 
-    <!-- ================= HEADER ================= -->
-    <header class="flex items-center justify-between px-6 mt-[5vh]">
+    <!-- HEADER -->
+    <header class="mt-20 px-4">
+        <!-- Logo + botão hamburger -->
+        <div class="flex items-center justify-between lg:justify-center">
+            <img src="assets/images/logo.webp" alt="Logo Haruy Sushi" class="mx-auto lg:mx-auto">
 
-        <figure>
-            <img src="./assets/images/logo.webp" alt="Logo Haruy Sushi" class="w-[30vw] max-w-[160px]">
-        </figure>
-
-        <!-- Botão hamburguer -->
-        <button id="menuBtn" class="md:hidden text-3xl">
-            ☰
-        </button>
-
-        <!-- Menu Desktop -->
-        <nav class="hidden md:block">
-            <ul class="flex gap-8 text-lg">
-                <li><a href="#cardapio" class="hover:text-primary transition font-semibold">Cardápio</a></li>
-                <li><a href="#contato" class="hover:text-primary transition font-semibold">Contato</a></li>
-            </ul>
-        </nav>
-
-    </header>
-
-    <!-- Menu Mobile -->
-    <div id="mobileMenu"
-        class="fixed top-0 right-[-100%] w-[70%] h-full bg-white shadow-lg transition-all duration-300 p-8 md:hidden z-50">
-
-        <button id="closeBtn" class="text-2xl mb-6">
-            ✕
-        </button>
-
-        <ul class="flex flex-col gap-6 text-lg">
-            <li><a href="#cardapio" class="hover:text-primary">Cardápio</a></li>
-            <li><a href="#contato" class="hover:text-primary">Contato</a></li>
-        </ul>
-
-    </div>
-
-    <!-- ================= BANNER ================= -->
-    <section class="text-center p-8">
-
-        <div class="md:flex md:items-center md:justify-center md:gap-10">
-
-            <article class="md:w-[45%]">
-
-                <h1 class="text-2xl md:text-4xl font-semibold">
-                    O verdadeiro sabor da cozinha japonesa
-                </h1>
-
-                <a href="#cardapio"
-                    class="inline-block mt-4 px-8 py-4 border border-gray-800 rounded-[3rem] text-lg min-h-[48px] hover:bg-primary hover:text-white transition">
-                    Veja o Cardápio
-                </a>
-
-            </article>
-
-            <figure class="md:w-[45%] mt-6 md:mt-0">
-                <img src="./assets/images/banner.webp" alt="Prato japonês" class="w-[90%] mx-auto">
-            </figure>
-
+            <!-- Botão hamburger (só aparece no mobile) -->
+            <button id="menu-btn"
+                class="lg:hidden flex flex-col justify-center items-center gap-[5px] w-9 h-9 focus:outline-none"
+                aria-label="Abrir menu" aria-expanded="false">
+                <span id="bar1" class="block w-6 h-[2px] bg-dark transition-all duration-300"></span>
+                <span id="bar2" class="block w-6 h-[2px] bg-dark transition-all duration-300"></span>
+                <span id="bar3" class="block w-6 h-[2px] bg-dark transition-all duration-300"></span>
+            </button>
         </div>
 
+        <!-- Nav desktop: inline | mobile: dropdown -->
+        <nav class="font-bold">
+            <!-- Links desktop -->
+            <ul class="hidden lg:flex justify-center list-none p-0 m-0 gap-10 mt-4">
+                <li><a href="#cardapio" class="text-dark">CARDÁPIO</a></li>
+                <li><a href="https://wa.me/5515987654321" target="_blank" class="text-dark">PEÇA PELO WHATSAPP</a></li>
+            </ul>
+
+            <!-- Menu mobile (dropdown) -->
+            <ul id="mobile-menu"
+                class="lg:hidden list-none p-0 m-0 overflow-hidden max-h-0 transition-all duration-300 ease-in-out flex flex-col items-center gap-4">
+                <li class="pt-4"><a href="#cardapio" class="text-dark" id="link-cardapio">CARDÁPIO</a></li>
+                <li class="pb-4"><a href="https://wa.me/5515987654321" target="_blank" class="text-dark">PEÇA PELO
+                        WHATSAPP</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- BANNER -->
+    <section class="w-full mt-10 px-4 lg:px-0 flex flex-col lg:flex-row items-center gap-8 lg:gap-0">
+        <div
+            class="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left lg:pl-[100px] lg:pr-10">
+            <p class="text-[26px] lg:text-[40px] leading-tight">O verdadeiro sabor da cozinha japonesa</p>
+            <a class="mt-6 border border-[#333333] rounded-[14px] py-4 px-6 text-xl text-dark inline-block hover:border-primary transition-colors duration-200"
+                href="#cardapio">VEJA O CARDÁPIO</a>
+        </div>
+        <div class="w-full lg:w-1/2 flex justify-center lg:justify-end lg:pr-10">
+            <img src="assets/images/banner.webp" alt="Prato" class="w-[90%] lg:w-[85%]">
+        </div>
     </section>
 
-    <!-- ================= CARDÁPIO ================= -->
-    <section id="cardapio" class="max-w-[90vw] mx-auto mt-[5vh] p-8">
+    <!-- CARDÁPIO -->
+    <section class="box-border border-t border-dashed border-[#999999] w-full max-w-[700px] 
+        mx-auto text-center mt-[100px] pt-[50px] px-[15px] pb-[10px]" id="cardapio">
 
-        <h2 class="text-3xl font-bold text-center mb-8">Cardápio</h2>
+        <h1 class="text-3xl font-bold">Cardápio</h1>
 
-        <!-- menu categoria inicio-->
-        <nav id="nav-categorias" class="overflow-x-auto 
-        whitespace-nowrap snap-x flex gap-2 mt-6 pb-1">
+        <!-- menu categoria inicio -->
+        <nav id="nav-categorias" class="overflow-x-auto whitespace-nowrap snap-x flex gap-2 mt-6 pb-1">
             <div class="animate-pulse flex gap-2">
-                <div class="h-8 w-20 bg-gray rounded-full"></div>
-                <div class="h-8 w-20 bg-gray rounded-full"></div>
-                <div class="h-8 w-20 bg-gray rounded-full"></div>
+                <div class="h-8 w-20 bg-gray-200 rounded-full"></div>
+                <div class="h-8 w-20 bg-gray-200 rounded-full"></div>
+                <div class="h-8 w-20 bg-gray-200 rounded-full"></div>
             </div>
         </nav>
-        <!--menu categoria fim-->
-
-
-
+        
         <!-- produto inicio-->
-        <div id="produto-container" class="mt-8">
+        <div id="produtos-container" class="mt-8">
             <div id="categoria-titulo" class="text-left text-dark font-extrabold text-[22px] mb-4">
                 Iniciando...
             </div>
-            <div id="lista-produtos" class="grid 
-            grid-cols-2 gap-4">
-                <!-- os produtos serão injetados aqui pelo backend -->
-
+            <div id="lista-produtos" class="grid grid-cols-2 gap-4">
+                <!-- os produtos serão injetados aqui via JS -->
             </div>
         </div>
-        <!-- produto fim -->
     </section>
 
+    <!-- FOOTER -->
+    <footer class="mt-[100px] text-center p-[50px] text-sm text-white bg-footer">
+        <h3 class="font-bold text-lg">Haruy Sushi</h3>
+        <p class="my-[3px]">Rua Prof. Toledo, 500, centro - Sorocaba</p>
+        <p class="my-[3px]">WhatsApp: (15) 9999-1234</p>
+        <p class="my-[3px]">Aberto todos os dias das 14h às 23h</p>
+    </footer>
+
+    <!-- Botão flutuante WhatsApp -->
+    <a href="https://wa.me/5515987654321" target="_blank" class="fixed right-5 bottom-5">
+        <img src="./img/whatsapp.png" alt="link do whatsapp" class="h-[60px]">
+    </a>
+
+    <!-- MODAL DETALHES -->
+    <div id="detalhes-modal"
+        class="fixed inset-0 bg-black/70 z-[80] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div class="bg-white w-full max-w-[400px] rounded-[30px] overflow-hidden transform scale-95 transition-transform duration-300 relative flex flex-col"
+            id="detalhes-modal-content">
+            <button onclick="fecharModalDetalhes()" class="absolute top-4 right-4 bg-white/80 w-10 h-10 rounded-full font-bold text-2xl z-10">&times;</button>
+            <div class="w-full h-[280px] bg-gray-50 flex justify-center items-center p-8 relative">
+                <img id="detalhes-img" src="" alt="Produto" class="w-full h-full object-contain drop-shadow-xl relative z-10">
+            </div>
+            <div class="p-6">
+                <h2 id="detalhes-nome" class="text-3xl font-black text-dark mb-1">Nome</h2>
+                <p id="detalhes-preco" class="text-2xl font-black text-primary mb-4">R$ 0,00</p>
+                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                    <p id="detalhes-desc" class="text-gray-600 text-sm leading-relaxed">Descrição...</p>
+                </div>
+                <button id="detalhes-btn-add" class="w-full bg-primary text-white py-4 rounded-xl text-[17px] font-extrabold shadow-lg">Adicionar ao Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ CARRINHO -->
+    <div id="carrinho-footer"
+        class="fixed bottom-0 left-0 w-full bg-primary text-white p-4 z-50 shadow-md transform translate-y-full transition-transform duration-300 flex justify-between items-center cursor-pointer"
+        onclick="abrirModalCarrinho()">
+        <div>
+            <p class="text-sm">Total do Pedido</p>
+            <p class="text-xl font-bold" id="carrinho-total">R$ 0,00</p>
+        </div>
+        <button class="bg-white text-primary px-4 py-2 rounded-lg font-bold">Ver Carrinho</button>
+    </div>
+
+    <!-- MODAL CARRINHO -->
+    <div id="carrinho-modal"
+        class="fixed inset-0 bg-black/60 z-[60] flex flex-col justify-end items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full sm:w-[500px] max-h-[85vh] rounded-t-3xl flex flex-col transform translate-y-full transition-transform duration-300"
+            id="carrinho-modal-content">
+            <div class="p-5 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold">Seu Carrinho</h2>
+                <button onclick="fecharModalCarrinho()" class="text-3xl font-bold">&times;</button>
+            </div>
+            <div id="carrinho-itens-container" class="p-5 flex-1 overflow-y-auto flex flex-col gap-4">
+                <!-- Itens -->
+            </div>
+            <div class="p-5 border-t bg-gray-50 rounded-b-3xl">
+                <input type="text" id="cliente-nome" placeholder="Seu Nome Completo" class="w-full mb-3 p-3 border border-gray-300 rounded-lg outline-none focus:border-primary">
+                <input type="text" id="cliente-endereco" placeholder="Endereço de Entrega (Rua, Número, Bairro)" class="w-full mb-4 p-3 border border-gray-300 rounded-lg outline-none focus:border-primary">
+                
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-lg font-bold">Total:</span>
+                    <span id="modal-carrinho-total" class="text-2xl font-black text-primary">R$ 0,00</span>
+                </div>
+                <button id="btn-fechar-pedido" onclick="fecharPedido()" class="w-full bg-primary text-white py-3 rounded-xl text-lg font-bold">Fechar Pedido</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const API_URL = 'https://haruy-sushi-aula-7-backend-2.vercel.app/api';
+        // -- CONFIGURAÇÃO API --
+        const URL_API = 'https://haruy-sushi-aula-7-backend-2.vercel.app/api';
+
+        // -- LÓGICA MENU HAMBURGER --
+        const btnMenu = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const bar1 = document.getElementById('bar1');
+        const bar2 = document.getElementById('bar2');
+        const bar3 = document.getElementById('bar3');
+        let menuOpen = false;
+
+        btnMenu.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+                bar1.style.transform = 'translateY(7px) rotate(45deg)';
+                bar2.style.opacity = '0';
+                bar3.style.transform = 'translateY(-7px) rotate(-45deg)';
+            } else {
+                mobileMenu.style.maxHeight = '0';
+                bar1.style.transform = '';
+                bar2.style.opacity = '1';
+                bar3.style.transform = '';
+            }
+        });
+
+        // -- LÓGICA CATEGORIAS E PRODUTOS --
         const navCategorias = document.getElementById('nav-categorias');
         const listaProdutos = document.getElementById('lista-produtos');
         const categoriaTitulo = document.getElementById('categoria-titulo');
         let categoriasData = [];
-        let categoriaAtivaId = null;
 
         async function carregarCategorias() {
             try {
-                const response = await fetch(`${API_URL}/categorias`);
-                categoriasData = await response.json();
+                const res = await fetch(`${API_URL}/categorias`);
+                categoriasData = await res.json();
                 renderizarBotoesCategorias();
-                //seleciona a 1ª categoria automatico
                 if (categoriasData.length > 0) {
                     selecionarCategoria(categoriasData[0].id, categoriasData[0].nome);
                 }
-            } catch (error) {
-                console.error('Erro ao carregar categorias:', error);
+            } catch (err) {
                 navCategorias.innerHTML = '<p class="text-red-500">Erro ao carregar menu.</p>';
             }
         }
 
-
-        //função para renderizar botões de menu
         function renderizarBotoesCategorias() {
             navCategorias.innerHTML = '';
             categoriasData.forEach(cat => {
                 const btn = document.createElement('button');
-                btn.className = `snap-start px-4 py-4 py-1 rounded-full font-bold 
-                text-sm transition-all duration-150 cursor-pointer flex-shrink-0 
-                btn-cat`;
+                btn.className = `snap-start px-4 py-1 rounded-full font-bold text-sm bg-[#ebebeb] text-dark btn-cat`;
                 btn.innerText = cat.nome;
                 btn.onclick = () => selecionarCategoria(cat.id, cat.nome);
                 btn.dataset.id = cat.id;
@@ -172,11 +257,9 @@
             });
         }
 
-        //função para mudar a categoria
         async function selecionarCategoria(id, nome) {
-            categoriaAtivaId = id;
-            const botoes = document.querySelectorAll('.btn-cat');
-            botoes.forEach(btn => {
+            categoriaTitulo.innerText = nome;
+            document.querySelectorAll('.btn-cat').forEach(btn => {
                 if (parseInt(btn.dataset.id) === id) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('bg-[#ebebeb]', 'text-dark');
@@ -189,496 +272,183 @@
         }
 
         async function carregarProdutos(categoriaId) {
-            listaProdutos.innerHTML = `
-        <div class="col-span-2 flex justify-center py-4">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-    `;
-
+            listaProdutos.innerHTML = '<div class="col-span-2 py-10 flex justify-center spinning">...</div>';
             try {
-                const response = await fetch(`${API_URL}/produtos`);
-                const produtos = await response.json();
-
-
-                const produtosFiltrados = produtos.filter(produto => {
-                    return Number(produto.categoria_id) === Number(categoriaId);
-                });
-
-                renderizarProdutos(produtosFiltrados);
-            } catch (error) {
-                console.error("Erro ao carregar produtos:", error);
-                listaProdutos.innerHTML = '<p class="col-span-2 text-red-500">Erro ao carregar produtos.</p>';
+                const res = await fetch(`${API_URL}/produtos?categoriaId=${categoriaId}`);
+                const produtos = await res.json();
+                renderizarProdutos(produtos);
+            } catch (err) {
+                listaProdutos.innerHTML = '<p class="text-red-500">Erro ao carregar produtos.</p>';
             }
         }
 
         function renderizarProdutos(produtos) {
             listaProdutos.innerHTML = '';
-
-            if (produtos.length === 0) {
-                listaProdutos.innerHTML = '<p class="col-span-2 text-gray-500">Nenhum produto encontrado.</p>';
-                return;
-            }
             produtos.forEach(p => {
-                const precoFormatado = p.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                const imgSource = (p.imagem && p.imagem.startsWith('http')) ? p.imagem : `./img/${p.imagem || 'logo.png'}`;
+                const pFormat = p.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                const imgS = (p.imagem && p.imagem.startsWith('http')) ? p.imagem : `./img/${p.imagem || 'logo.png'}`;
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-[20px] p-3  shadow-sm border border-gray-100 relative flex flex-col hover-col hover:shadow-md transition-shadow group";
+                card.className = "bg-white rounded-[20px] p-3 shadow-sm border border-gray-100 flex flex-col relative";
                 card.innerHTML = `
-                    <div class="absolute inset-0 z-0 cursor-pointer" onclick="abrirModalDetalhes('${p.nome}', ${p.preco}, '${p.descricao || ''}', '${imgSource}', '${p.id}')"></div>
-                    <img src="${imgSource}" alt="${p.nome}" class="w-full h-24 object-contain mb-2 mt-2 transition-transform duration-300 drop-shadow-md group-hover:scale-105 pointer-events-none relative z-10" onerror="this.onerror=null; this.src='./img/logo.png'">
-                   <div class="text-left w- full mt-auto relative z-10 pointer-events-none">
-                    <h4 class="font-bold text-dark text-sm leading-tight">${p.nome}</h4>
-                    <p class="text-primary font-bold text-sm mt-2">
-                     ${p.preco.toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                })}
-                </p>
-                </div>
-                <button onclick="adicionarItem('${p.id}', '${p.nome}', ${p.preco})" class="w-full bg-primary text-white py-2 rounded-xl text-xs  font-bold mt-3 shadow-md hover:bg-red-700 active:scale-95 transition-all z-10 relative">
-                Adicinar
-                </button>
-                    `;
+                    <div class="absolute inset-0 z-0 cursor-pointer" onclick="abrirModalDetalhes('${p.nome}', ${p.preco}, '${p.descricao || ''}', '${imgS}', '${p.id}')"></div>
+                    <img src="${imgS}" alt="${p.nome}" class="w-full h-24 object-contain mb-2 pointer-events-none relative z-10">
+                    <h4 class="font-bold text-dark text-sm relative z-10">${p.nome}</h4>
+                    <p class="text-primary font-black text-lg relative z-10">${pFormat}</p>
+                    <button onclick="adicionarItem('${p.id}', '${p.nome}', ${p.preco})" class="w-full bg-primary text-white py-2 rounded-xl text-xs font-bold mt-3 relative z-10">Adicionar</button>
+                `;
                 listaProdutos.appendChild(card);
-            })
-
-        }
-
-
-
-
-
-        carregarCategorias();
-
-        function carregarDados() {
-            fetch(`${API_URL}`)
-                .then(res => res.json())
-                .then(data => {
-                    // Esconde o texto
-                    document.getElementById('categoria-titulo').style.display = 'none';
-
-                    // ou remove completamente:
-                    // document.getElementById('categoria-titulo').remove();
-                });
-        }
-
-        carregarDados();
-
-    </script>
-
-
-
-
-
-
-
-
-
-    <!-- ================= FOOTER ================= -->
-    <footer class="mt-24 text-center py-12 px-4 text-[0.875rem] text-white bg-[#333333]">
-        <h3 class="text-lg font-bold mb-2">Haruy Sushi</h3>
-        <p>📍 Rua Prof. Toledo, 500, centro - Sorocaba</p>
-        <p>📞 Whatsapp: (15) 99145-6699</p>
-        <p>🕛 Aberto todos os dias das 14h às 23h</p>
-    </footer>
-
-    <a href="https://wa.me/5515991456699" target="_blank" class="fixed right-5 bottom-5">
-        <img src="./assets/images/whatsapp.webp" alt="link-whatsapp" class="h-[3.25rem]">
-    </a>
-
-    <!-- MODAL DE DETALHES DO PRODUTO -->
-    <div id="detalhes-modal"
-        class="fixed inset-0 bg-black/70 z-[80] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-        <div class="bg-white w-full max-w-[400px] rounded-[30px] overflow-hidden transform scale-95 transition-transform duration-300 relative flex flex-col"
-            id="detalhes-modal-content">
-
-            <!-- Botão Fechar -->
-            <button onclick="fecharModalDetalhes()"
-                class="absolute top-4 right-4 bg-white/80 backdrop-blur-md text-dark w-10 h-10 rounded-full flex justify-center items-center font-bold text-2xl shadow-sm z-10 hover:text-primary active:scale-90 transition-all">&times;</button>
-
-            <!-- Imagem -->
-            <div class="w-full h-[280px] bg-gray-50 flex justify-center items-center p-8 relative">
-                <div class="absolute inset-0 bg-gradient-to-b from-gray-100 to-white opacity-50"></div>
-                <img id="detalhes-img" src="" alt="Produto"
-                    class="w-full h-full object-contain drop-shadow-xl relative z-10 transition-transform duration-500 hover:scale-105">
-            </div>
-
-            <!-- Infos -->
-            <div class="p-6">
-                <h2 id="detalhes-nome" class="text-3xl font-black text-dark mb-1 leading-tight tracking-tight">Nome do
-                    Produto</h2>
-                <p id="detalhes-preco" class="text-2xl font-black text-primary mb-4 drop-shadow-sm">R$ 0,00</p>
-                <div class="bg-gray-50 rounded-xl p-4 mb-6">
-                    <p id="detalhes-desc" class="text-gray-600 text-sm leading-relaxed font-medium">Descrição detalhada
-                        do produto vai aqui...</p>
-                </div>
-
-                <button id="detalhes-btn-add"
-                    class="w-full bg-gradient-to-r from-primary to-[#a82d2f] text-white py-4 rounded-xl text-[17px] font-extrabold shadow-[0_8px_20px_-6px_rgba(202,60,63,0.5)] hover:shadow-[0_8px_25px_-4px_rgba(202,60,63,0.6)] active:scale-[0.98] transition-all outline-none flex justify-center items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                        stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Adicionar ao Pedido
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- RODAPÉ CARRINHO FIXO (Abre Modal) -->
-    <div id="carrinho-footer"
-        class="fixed bottom-0 left-0 w-full bg-primary text-white p-4 z-50 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] transform translate-y-full transition-transform duration-300 flex justify-between items-center cursor-pointer"
-        onclick="abrirModalCarrinho()">
-        <div>
-            <p class="text-sm font-medium">Resumo do Pedido</p>
-            <p class="text-xl font-bold">Total: <span id="carrinho-total">R$ 0,00</span></p>
-        </div>
-        <button class="bg-white text-primary px-4 py-2 rounded-lg font-bold shadow-md active:scale-95 transition-all">
-            Ver Carrinho
-        </button>
-    </div>
-
-    <!-- MODAL DO CARRINHO (Detalhes) -->
-    <div id="carrinho-modal"
-        class="fixed inset-0 bg-black/60 z-[60] flex flex-col justify-end sm:justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
-
-        <!-- Conteúdo do Modal -->
-        <div class="bg-white w-full sm:w-[500px] h-[85vh] sm:h-auto sm:max-h-[85vh] rounded-t-3xl sm:rounded-2xl flex flex-col transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-300"
-            id="carrinho-modal-content">
-
-            <!-- Cabelho Modal -->
-            <div class="p-5 border-b flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-dark">Seu Carrinho</h2>
-                <button onclick="fecharModalCarrinho()"
-                    class="text-3xl font-bold text-muted hover:text-dark focus:outline-none">&times;</button>
-            </div>
-
-            <!-- Corpo Modal (Itens) -->
-            <div id="carrinho-itens-container" class="p-5 flex-1 overflow-y-auto flex flex-col gap-4">
-                <!-- Itens serão injetados aqui via JS -->
-            </div>
-
-            <!-- Rodapé Modal (Checkout) -->
-            <div class="p-5 border-t bg-gray-50 rounded-b-3xl sm:rounded-b-2xl">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-lg font-bold">Total do Pedido:</span>
-                    <span id="modal-carrinho-total" class="text-2xl font-black text-primary">R$ 0,00</span>
-                </div>
-                <button onclick="fecharPedido()" id="btn-fechar-pedido"
-                    class="w-full bg-primary text-white py-3 rounded-xl text-lg font-bold shadow-lg hover:bg-red-700 active:scale-95 transition-all">
-                    Fechar Pedido (Usar GPS)
-                </button>
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- script menu hamburguer -->
-    <script>
-        const menuBtn = document.getElementById("menuBtn");
-        const closeBtn = document.getElementById("closeBtn");
-        const mobileMenu = document.getElementById("mobileMenu");
-
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.style.right = "0";
-        });
-
-        closeBtn.addEventListener("click", () => {
-            mobileMenu.style.right = "-100%";
-        });
-    </script>
-
-    <!-- script botao categoria -->
-    <script>
-        const botoes = document.querySelectorAll('.btn-cat');
-        const conteudos = document.querySelectorAll('.categoria-conteudo');
-
-        function mudarCategoria(cat) {
-            //mostra apenas a categoria seleconada
-            conteudos.forEach(div => {
-                div.id === 'cat-' + cat
-                    ? div.classList.remove('hidden')
-                    : div.classList.add('hidden');
-            });
-            //atualiza estilo do botao ativo
-            botoes.forEach(btn => {
-                if (btn.dataset.cat === cat) {
-                    btn.classList.add('bg-primary', 'text-white');
-                    btn.classList.remove('bg-[#ebebeb]', 'text-dark');
-                } else {
-                    btn.classList.remove('bg-primary', 'text-white');
-                    btn.classList.add('bg-[#ebebeb]', 'text-dark');
-                }
             });
         }
 
-        //ativa scroll suave para links internos
-        let startX = 0;
-        let startY = 0;
-
-        //evento de cada botao
-        botoes.forEach(btn => {
-            //touchstart é disparado assim que o dedo toca a tela
-            btn.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                //aplica class tailwind para efeito de clique
-                btn.classList.add('scale-95', 'opacity-80');
-            });
-            //touchend quando tira o dedo da tela
-            btn.addEventListener('touchend', (e) => {
-                //remove efeito visual
-                btn.classList.remove('scale-95', 'opacity-80');
-                //ultima posição do dedo antes de levantar
-                const endX = e.changedTouches[0].clientX;
-                const endY = e.changedTouches[0].clientY;
-                //calcula distancia percorrida pelo dedo em pixels
-                const deltaX = Math.abs(endX - startX);
-                const deltaY = Math.abs(endY - startY);
-                //logica matematica se moveu menos de 10px = clique intencional
-                if (deltaX < 10 && deltaY < 10) {
-                    mudarCategoria(btn.dataset.cat);
-                }
-            });
-            //touchcancel se o celular aparecer uma ligação ou notificação popup
-            btn.addEventListener('touchcancel', () => {
-                btn.classList.remove('scale-95', 'opacity-80');
-            });
-            //click para usuarios desktop
-            btn.addEventListener('click', () => {
-                mudarCategoria(btn.dataset.cat);
-            });
-        });
-
-        //logica do carrinho, loclstorage e apis
-        //modal detalhes do produto
-
-        const modalDetalhes = document.getElementById('detalhes-modal');
-        const modalDetalhesContent = document.getElementById('detalhes-modal-content');
-
-        //abre o modal com informações do produto clicado
+        // -- LÓGICA DO CARRINHO E MODAIS --
+        const modalDet = document.getElementById('detalhes-modal');
+        const modalDetContent = document.getElementById('detalhes-modal-content');
+        
         function abrirModalDetalhes(nome, preco, desc, img, id) {
-            if (navigator.vibrate) navigator.vibrate(40);
-
             document.getElementById('detalhes-nome').innerText = nome;
             document.getElementById('detalhes-preco').innerText = preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            document.getElementById('detalhes-desc').innerText = desc;
+            document.getElementById('detalhes-desc').innerText = desc || "Sem descrição.";
             document.getElementById('detalhes-img').src = img;
-            document.getElementById('detalhes-btn-add').onclick = function () {
+            document.getElementById('detalhes-btn-add').onclick = () => {
                 adicionarItem(id, nome, preco);
                 fecharModalDetalhes();
-            }
-            modalDetalhes.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                modalDetalhesContent.classList.remove('scale-95');
-                modalDetalhesContent.classList.add('scale-100');
-            }, 10);
+            };
+            modalDet.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => modalDetContent.classList.remove('scale-95'), 10);
         }
 
-        //fecha o madal detalhes do produto
         function fecharModalDetalhes() {
-            modalDetalhesContent.classList.remove('scale-100');
-            modalDetalhesContent.classList.add('scale-95');
-            setTimeout(() => {
-                modalDetalhes.classList.add('opacity-0', 'pointer-events-none');
-            }, 300);
+            modalDetContent.classList.add('scale-95');
+            setTimeout(() => modalDet.classList.add('opacity-0', 'pointer-events-none'), 300);
         }
 
-        //carrinho
-        //array para armazenar itens do carrinho
         let carrinho = [];
-        //elementos do DOM
-        const carrinhoFooter = document.getElementById('carrinho-footer');
-        const carrinhoTotalSpan = document.getElementById('carrinho-total');
-        //elementos do modal
-        const modal = document.getElementById('carrinho-modal');
-        const modalContent = document.getElementById('carrinho-modal-content');
-        const itensContainer = document.getElementById('carrinho-itens-container');
-        const modalTotalSpan = document.getElementById('modal-carrinho-total');
-        //verifica se o carrinho já tem itens salvos no localstorage
-        function inicializarCarrinho() {
-            const carrinhoSalvo = localStorage.getItem('haruy_carrinho');
-            if (carrinhoSalvo) {
-                //se existe algo salvo converte de volta para array e atualiza o carrinho
-                carrinho = JSON.parse(carrinhoSalvo);
-                atualizarIterfaceCart();
-            };
-        };
+        const footerCart = document.getElementById('carrinho-footer');
+        const totalSpan = document.getElementById('carrinho-total');
+        const modalC = document.getElementById('carrinho-modal');
+        const modalCContent = document.getElementById('carrinho-modal-content');
+        const itensCont = document.getElementById('carrinho-itens-container');
+        const totalMod = document.getElementById('modal-carrinho-total');
 
-        //adicionar ao carrinho
         function adicionarItem(id, nome, preco) {
-            if (navigator.vibrate) {
-                navigator.vibrate(200);
-            };
             const index = carrinho.findIndex(item => item.id === id);
-
-            if (index !== -1) {
-                carrinho[index].quantidade += 1;
-            } else {
-                carrinho.push({
-                    id: id,
-                    nome: nome,
-                    preco: preco,
-                    quantidade: 1
-                });
-            };
+            if (index !== -1) carrinho[index].quantidade++;
+            else carrinho.push({ id, nome, preco, quantidade: 1 });
             atualizarCarrinho();
-        };
+        }
 
-        //função modal abrir e fechar do carrinho
+        function atualizarCarrinho() {
+            localStorage.setItem('haruy_carrinho', JSON.stringify(carrinho));
+            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+            const formatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            totalSpan.innerText = formatado;
+            totalMod.innerText = formatado;
+            if (carrinho.length > 0) footerCart.classList.remove('translate-y-full');
+            else footerCart.classList.add('translate-y-full');
+            renderizarItensCart();
+        }
+
+        function renderizarItensCart() {
+            itensCont.innerHTML = '';
+            carrinho.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-center border-b pb-2";
+                div.innerHTML = `<div><h4 class="font-bold">${item.nome}</h4><p>${item.quantidade}x</p></div><p class="font-bold text-primary">${(item.preco * item.quantidade).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>`;
+                itensCont.appendChild(div);
+            });
+        }
+
         function abrirModalCarrinho() {
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                modalContent.classList.remove('translate-y-full', 'scale-95');
-            }, 10);
+            modalC.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => modalCContent.classList.remove('translate-y-full'), 10);
         }
 
         function fecharModalCarrinho() {
-            modalContent.classList.add('translate-y-full', 'scale-95');
-            setTimeout(() => {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-            }, 300);
+            modalCContent.classList.add('translate-y-full');
+            setTimeout(() => modalC.classList.add('opacity-0', 'pointer-events-none'), 300);
         }
 
-        //controles dentro do modal do carrinho ( aumentar, diminuir, remover itens)
-        //controle de (+ / -) quantidade
-        function aumentarQuantidade(id) {
-            const index = carrinho.findIndex(item => item.id === id);
-            if (index !== -1) {
-                carrinho[index].quantidade += 1;
-                atualizarCarrinho();
-                //efeito de vibração para feedback tátil
-                if (navigator.vibrate) navigator.vibrate(50);
-            };
-        };
-
-        function diminuirQuantidade(id) {
-            const index = carrinho.findIndex(item => item.id === id);
-            if (index !== -1) {
-                if (carrinho[index].quantidade > 1) {
-                    carrinho[index].quantidade -= 1;
-                } else {
-                    carrinho.splice(index, 1);
-                    if (carrinho.length === 0) {
-                        fecharModalCarrinho();
-                    };
-                };
-                atualizarCarrinho();
-                if (navigator.vibrate) navigator.vibrate(50);
-            };
-        };
-
-        //percistência do carrinho no localstorage e atualização da interface
-        function atualizarCarrinho() {
-            localStorage.setItem('haruy_carrinho', JSON.stringify(carrinho));
-            atualizarInterfaceCart();
-        };
-        function atualizarInterfaceCart() {
+        async function fecharPedido() {
             if (carrinho.length === 0) {
-                carrinhoFooter.classList.add('translate-y-full');
+                alert("Seu carrinho está vazio!");
                 return;
+            }
+
+            const nome = document.getElementById('cliente-nome').value;
+            const endereco = document.getElementById('cliente-endereco').value;
+
+            if (!nome || !endereco) {
+                alert("Por favor, preencha seu nome e endereço de entrega!");
+                return;
+            }
+
+            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+            
+            const payloadPedido = {
+                cliente_nome: nome,
+                cliente_endereco: endereco,
+                itens: carrinho,
+                total: total
             };
-            const total = carrinho.reduce((acc, item) =>
-                acc + (item.preco * item.quantidade), 0);
-            const totalFormato = total.toLocaleString('pt-BR',
-                { style: 'currency', currency: 'BRL' });
-            // Formata para a moeda Brasileira R$
-            carrinhoTotalSpan.innerText = totalFormato;
-            modalTotalSpan.innerText = totalFormato;
-            // Exibe a barra do carrinho (traz de volta pra tela)
-            carrinhoFooter.classList.remove('translate-y-full');
-            // Renderiza a lista de itens dentro do Modal
-            renderizarItensModal();
-        };
 
-        //função para renderizar os itens do carrinho dentro do modal
-        function renderizarItensModal() {
-            if (!itensContainer) return;
-            itensContainer.innerHTML = '';
-            //para cada item do array, cria um HTML
-            carrinho.forEach(item => {
-                const subTotal = (item.preco * item.quantidade).toLocaleString
-                    ('pt-br', { style: 'currency', currency: 'BRL' });
-                const precoUnit = item.preco.toLocaleString
-                    ('pt-BR', { style: 'currency', currency: 'BRL' });
-                const divItem = document.createElement('div');
-                divItem.className = "flex justify-between items-center border-b pb-4 mt-2";
+            const btnFechar = document.getElementById('btn-fechar-pedido');
+            btnFechar.innerText = "Enviando...";
+            btnFechar.disabled = true;
+            btnFechar.classList.add("opacity-50");
 
-                divItem.innerHTML = `
-              <div class="flex-1">
-                <h4 class="font-bold text-lg text-dark">${item.nome}</h4>
-                <p class="text-sm text-muted">${precoUnit}</p>
-                <p class="text-bold text-primary mt-1">${subTotal}</p>
-              </div>
-              <div class="flex items-center gap-3 bg-gray-100 p-2 rounded-xl">
-                <button onclick="diminuirQuantidade('${item.id}')"
-                class="w-8 h-8 flex justify-center items-center bg-white rounded-lg
-                font-bold text-xl shadow-sm hover:text-primary
-                active: scale-95 transition-all">-</button>
-                <span class="font-bold text-lg w-4 text-center">${item.quantidade}</span>
-                <button onclick="aumentarQuantidade('${item.id}')" class="w-8 h-8
-                flex justify-center items-center bg-white rounded-lg font-bold
-                text-xl shadow-sm hover:text-primary active:scale-95
-                transition-all">+</button>
-              `;
-                itensContainer.appendChild(divItem);
-            });
-        };
-
-        function fecharPedido() {
-            if (carrinho.length !== 0) {
-                const btnPedido = document.getElementById('btn-fechar-pedido');
-                if (!btnPedido) return;
-
-                const btnOriginalText = btnPedido.innerText
-                btnPedido.innerText = "Buscando localização...";
-
-                navigator.geolocation.getCurrentPosition(
-                    //callback de sucesso
-                    (posicao) => {
-                        const lat = posicao.coords.latitude;
-                        const lng = posicao.coords.longitude;
-
-                        btnPedido.innerText = btnOriginalText;
-
-                        alert(`Pedido Fechado com Sucesso!
-                \nSua Localização: ${lat.toFixed(4)}, ${lng.toFixed(4)}
-                \nOs dados do carrinho serão limpos`);
-
-                        carrinho = [];
-                        fecharModalCarrinho();
-                        atualizarCarrinho();
+            try {
+                const resposta = await fetch(`${API_URL}/pedidos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     },
-                    //callback de erro
-                    (erro) => {
-                        btnPedido.innerText = btnOriginalText;
-                        console.error(erro);
-                        alert("Não foi possível obter sua localização.");
-                        carrinho = [];
-                        fecharModalCarrinho();
-                        atualizarCarrinho();
-                    }
-                );
-            } else {
-                alert(`Pedido Fechado com Sucesso!\n(navegador sem suporte GPS)`);
+                    body: JSON.stringify(payloadPedido)
+                });
+
+                if (!resposta.ok) throw new Error('Erro ao enviar pedido');
+
+                alert("Pedido enviado com sucesso para a cozinha!");
+                
+                // Limpar tudo
+                document.getElementById('cliente-nome').value = '';
+                document.getElementById('cliente-endereco').value = '';
                 carrinho = [];
+                atualizarCarrinho();
                 fecharModalCarrinho();
+            } catch (erro) {
+                console.error(erro);
+                alert("Ops! Ocorreu um problema de conexão. Tente novamente.");
+            } finally {
+                btnFechar.innerText = "Fechar Pedido";
+                btnFechar.disabled = false;
+                btnFechar.classList.remove("opacity-50");
+            }
+        }
+
+        function inicializarCarrinho() {
+            const salvo = localStorage.getItem('haruy_carrinho');
+            if (salvo) {
+                carrinho = JSON.parse(salvo);
                 atualizarCarrinho();
             }
-         } 
-         
-         inicializarCarrinho(); 
-         
-         if('serviceWorker' in navigator) { 
-             window.addEventListener('load', () =>{ 
-                 navigator.serviceWorker.register('./sw.js') 
-                 .then(reg => console.log('Service Worker Registrado no Porto!', reg)) 
-                  .catch(err => console.error('Erro ao preparar o sushi: ', err)); 
-                 }); 
-                 } 
-    </script>
+        }
+        
+        carregarCategorias();
+        inicializarCarrinho();
 
+        // 🚀 AULA 12: REGISTRANDO O SERVICE WORKER (PARA TRANSFORMAR EM PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker Registrado no Porto! 🍱', reg))
+                .catch(err => console.error('Erro ao preparar o sushi: ', err));
+            });
+        }
+
+        
+    </script>
 </body>
 
 </html>
+index.txt
+Exibindo index.txt…
